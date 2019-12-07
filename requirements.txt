@@ -1,0 +1,4 @@
+pandas==0.25.3
+scikit-learn==0.21.3
+numpy==1.17.4
+lightgbm==2.3.0
