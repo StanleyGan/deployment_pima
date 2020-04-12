@@ -2,6 +2,7 @@ from deployment_pima.config import config
 from sklearn.model_selection import train_test_split
 from deployment_pima.data_manager import load_data, save_pipeline
 from deployment_pima import __version__ as _version
+from deployment_pima import pipeline
 
 import logging
 _logger = logging.getLogger(__name__)
