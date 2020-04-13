@@ -13,7 +13,7 @@ def load_data(file_name: str) -> pd.DataFrame:
     Args:
         file_name (A str)
     """
-    _data = pd.read_csv(os.path.join(config.DATA_DIR, config.DATA_FILE))
+    _data = pd.read_csv(os.path.join(config.DATA_DIR, file_name))
     return _data
 
 def save_pipeline(pipeline_to_persist) -> None:

@@ -1,0 +1,16 @@
+include *.txt
+include *.md
+include *.cfg
+include *.pkl
+recursive-include ./deployment_pima/*
+
+include deployment_pima/datasets/diabetes.csv
+include deployment_pima/datasets/test_case1.csv
+include deployment_pima/trained_models/*.pkl
+include deployment_pima/VERSION
+
+include ./requirements.txt
+exclude *.log
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

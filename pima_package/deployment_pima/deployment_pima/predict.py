@@ -1,6 +1,6 @@
 from deployment_pima.config import config
 from deployment_pima import __version__ as _version
-from deployment_pima.processing.data_manager import load_pipeline
+from deployment_pima.processing.pipeline_helper import load_pipeline
 from deployment_pima.processing.data_validation import validate_inputs
 import pandas as pd
 

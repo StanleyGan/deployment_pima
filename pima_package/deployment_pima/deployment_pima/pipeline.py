@@ -4,6 +4,7 @@ from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
 from lightgbm import LGBMClassifier
+from deployment_pima.config import config
 
 import logging
 _logger = logging.getLogger(__name__)

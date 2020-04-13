@@ -1,7 +1,8 @@
 import logging
 import pandas as pd
+from deployment_pima.config import config
 
-_logger = loging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 def validate_inputs(input_data: pd.DataFrame) -> pd.DataFrame:
     """ Validate input data so that it's in expectation as seen in training
