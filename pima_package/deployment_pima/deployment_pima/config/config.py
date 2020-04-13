@@ -14,6 +14,8 @@ DATA_DIR = ROOT / 'datasets'
 # data
 DATA_FILE = 'diabetes.csv'
 TARGET = 'Outcome'
+FEATURES = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
+            'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
 SEED = 42
 VAL_SIZE = 0.2
 IMPUTE_FEATURES = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']

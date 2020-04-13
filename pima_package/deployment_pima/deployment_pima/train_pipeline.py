@@ -7,7 +7,7 @@ from deployment_pima import pipeline
 import logging
 _logger = logging.getLogger(__name__)
 
-def train():
+def train() -> None:
     """Main training function. Loads the data, split it to train and val,
        fit a model, save the model.
     """
@@ -19,9 +19,9 @@ def train():
         random_state=config.SEED
     )
 
-    X_train = train[[c for c in data.columns if c != config.TARGET]]
+    X_train = train[config.FEATURES]
     y_train = train[config.TARGET]
-    X_val = val[[c for c in val.columns if c != config.TARGET]]
+    X_val = val[config.FEATURES]
     y_val = val[config.TARGET]
 
     pipeline.pima_pipeline.fit(X_train[config.FEATURES], y_train)
