@@ -1,0 +1,25 @@
+version: 2.1
+
+jobs:
+  test_deployment_pima:
+    working_directory: ~/project
+    docker:
+      - image: circleci/python:3.6.10
+    steps:
+      - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
+      - run:
+          command: |
+            virtualenv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -e pima_package/deployment_pima
+            pytest pima_package/deployment_pima/tests
+          name: Running test
+
+workflows:
+  main:
+    jobs:
+      - test_deployment_pima
