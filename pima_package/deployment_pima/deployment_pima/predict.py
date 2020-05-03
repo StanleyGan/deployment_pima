@@ -14,14 +14,14 @@ def make_predictions(input_data) -> dict:
     """ Make predictions
 
     Args:
-        input_data (A json string format)
+        input_data (A list of dictionaries loaded from json)
     """
-    data = pd.read_json(input_data)
+    data = pd.DataFrame(input_data)
     validated_data = validate_inputs(input_data=data)
     prediction = saved_model.predict(validated_data[config.FEATURES])
 
     results = {
-        'prediction': prediction,
+        'predictions': prediction,
         'version': _version
     }
 

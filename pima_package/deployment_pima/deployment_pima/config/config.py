@@ -16,6 +16,8 @@ DATA_FILE = 'diabetes.csv'
 TARGET = 'Outcome'
 FEATURES = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
             'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
+TEST_FILE_NAME = "test_case1.csv"
+
 SEED = 42
 VAL_SIZE = 0.2
 IMPUTE_FEATURES = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
