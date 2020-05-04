@@ -13,7 +13,7 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -e pima_package/deployment_pima
-            pytest pima_package/deployment_pima/tests
+            py.test -vv pima_package/deployment_pima/tests
           name: Running test
 
 workflows:
