@@ -7,9 +7,6 @@ jobs:
       - image: circleci/python:3.6.10
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
           command: |
             virtualenv venv
