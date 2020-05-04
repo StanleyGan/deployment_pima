@@ -20,7 +20,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *prepare_env
+      - *prepare_venv
       - run:
           name: Install requirements
           command: |
@@ -44,7 +44,7 @@ jobs:
       - restore_cache:
           keys:
             - py-deps-{{ checksum "pima_package/pima_api/requirements.txt" }}
-      - *prepare_env
+      - *prepare_venv
       - run:
           name: Running api tests
           command: |
@@ -52,14 +52,14 @@ jobs:
             py.test -vv pima_package/pima_api/tests
       - save_cache:
           key: py-deps-{{ checksum "pima_package/pima_api/requirements.txt" }}
-          paths: 
+          paths:
             - "/venv"
 
   train_and_upload_model:
     <<: *defaults
-    steps: 
+    steps:
       - checkout
-      - *prepare_env
+      - *prepare_venv
       - run:
           name: Install requirements
           command: |
@@ -76,7 +76,7 @@ jobs:
             source venv/bin/activate
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./pima_package/deployment_model/
-            
+
 
 workflows:
   version: 2.1
