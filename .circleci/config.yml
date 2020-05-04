@@ -83,8 +83,8 @@ workflows:
   test-all:
     jobs:
       - test_deployment_pima
+      - train_and_upload_model
       - test_pima_api
-      - train_and_upload_model:
           requires:
             - test_deployment_pima
-            - test_pima_api
+            - train_and_upload_model
