@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: circleci/python:3.7.2
+    - image: circleci/python:3.6.10
   working_directory: ~/project
 
 
@@ -30,8 +30,7 @@ jobs:
           name: Train model
           command: |
             source venv/bin/activate
-            PYTHONPATH=./pima_package/deployment_pima
-            python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
+            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
       - run:
           name: Running model tests
           command: |

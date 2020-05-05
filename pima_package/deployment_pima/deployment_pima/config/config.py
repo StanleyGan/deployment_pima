@@ -25,4 +25,4 @@ IMPUTE_ITER = 30
 
 # Model
 PIPELINE_FILE = "lgbm"
-MODEL_HYP = {"max_depth":5, "n_estimators":500, "random_state":SEED}
+MODEL_HYP = {"max_depth":5, "n_estimators":500, "random_state":SEED, "num_leaves":12}
