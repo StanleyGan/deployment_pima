@@ -30,6 +30,7 @@ jobs:
           name: Train model
           command: |
             source venv/bin/activate
+            PYTHONPATH=./pima_package/deployment_pima
             python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
       - run:
           name: Running model tests
