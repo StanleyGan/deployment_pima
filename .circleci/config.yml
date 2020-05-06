@@ -75,7 +75,7 @@ jobs:
           command: |
             source venv/bin/activate
             chmod +x ./scripts/publish_model.sh
-            ./scripts/publish_model.sh ./pima_package/deployment_model/
+            ./scripts/publish_model.sh ./pima_package/deployment_pima/
 
 
 workflows:
