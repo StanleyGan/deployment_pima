@@ -3,7 +3,7 @@ from deployment_pima.processing import preprocessors as preproc
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
-from lightgbm import LGBMClassifier
+from sklearn.ensemble import GradientBoostingClassifier as gbm
 from deployment_pima.config import config
 
 import logging
@@ -18,7 +18,7 @@ pima_pipeline = Pipeline(
                 random_state=config.SEED)),
         ('standard_scaler',
             StandardScaler()),
-        ('lgbm',
-            LGBMClassifier(**config.MODEL_HYP))
+        ('gbm',
+            gbm(**config.MODEL_HYP))
     ]
 )

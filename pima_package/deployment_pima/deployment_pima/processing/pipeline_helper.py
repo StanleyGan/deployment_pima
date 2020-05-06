@@ -29,6 +29,8 @@ def save_pipeline(pipeline_to_persist) -> None:
     """
     # File name
     save_file = "{}_{}.pkl".format(config.PIPELINE_FILE, _version)
+    if not os.path.exists(config.MODEL_DIR):
+        os.mkdir(config.MODEL_DIR)
     save_path = config.MODEL_DIR / save_file
 
     remove_old_pipelines(file_to_keep=save_file)
