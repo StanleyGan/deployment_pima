@@ -10,6 +10,12 @@ import os
 from deployment_pima.predict import make_predictions
 from deployment_pima.processing.pipeline_helper import load_data
 from deployment_pima.config import config
+with open("diff_test_requirements.txt", 'r') as f:
+    requirements = f.readlines()
+
+previous_version = [i for i in requirements if i.startswith("deployment-pima")][0]\
+                    .split("==")[-1]\
+                    .strip()
 
 
 def capture_predictions() -> None:
@@ -20,7 +26,10 @@ def capture_predictions() -> None:
 
     multiple_test_input = test_data[:20]
 
-    predictions = make_predictions(input_data=multiple_test_input)
+    predictions = make_predictions(
+        input_data=multiple_test_input,
+        model_version=previous_version
+    )
 
     # save predictions for the test dataset
     predictions_df = pd.DataFrame(predictions)
