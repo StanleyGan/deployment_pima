@@ -10,7 +10,7 @@ import os
 from deployment_pima.predict import make_predictions
 from deployment_pima.processing.pipeline_helper import load_data
 from deployment_pima.config import config
-with open("diff_test_requirements.txt", 'r') as f:
+with open(os.path.join(config.ROOT, "tests", "diff_test_requirements.txt"), 'r') as f:
     requirements = f.readlines()
 
 previous_version = [i for i in requirements if i.startswith("deployment-pima")][0]\
@@ -37,7 +37,7 @@ def capture_predictions() -> None:
     # hack here to save the file to the regression model
     # package of the repo, not the installed package
     predictions_df.to_csv(
-        os.path.join(api_config.PACKAGE_ROOT, "tests", save_file)
+        os.path.join(config.ROOT, "tests", save_file)
     )
 
 

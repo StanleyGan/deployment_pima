@@ -41,7 +41,7 @@ jobs:
           name: Running model tests
           command: |
             source venv/bin/activate
-            py.test -vv pima_package/deployment_pima/tests
+            py.test -vv pima_package/deployment_pima/tests -m "not differential"
       - run:
           name: Running differential tests
           command: |
