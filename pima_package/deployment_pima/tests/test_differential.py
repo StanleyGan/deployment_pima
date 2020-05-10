@@ -1,17 +1,13 @@
 import math
 import os
 
-from deployment_pima.config import config as model_config
+from deployment_pima.config import config
 from deployment_pima.predict import make_predictions
 from deployment_pima.processing.pipeline_helper import load_data
 import pandas as pd
 import pytest
 
 
-from api import config
-
-
-@pytest.mark.skip
 @pytest.mark.differential
 def test_model_prediction_differential(
         *,
@@ -23,7 +19,7 @@ def test_model_prediction_differential(
 
     # Given
     # Load the saved previous model predictions
-    previous_model_df = pd.read_csv(os.path.join(config.PACKAGE_ROOT, 'differential_tests', save_file))
+    previous_model_df = pd.read_csv(os.path.join(config.ROOT, 'tests', save_file))
     previous_model_predictions = previous_model_df.predictions.values
 
     test_data = load_data(file_name=config.DATA_FILE)
@@ -41,6 +37,6 @@ def test_model_prediction_differential(
     # Perform the differential test
     assert( math.isclose(
                 sum(previous_model_predictions), sum(current_model_predictions),
-                rel_tol=model_config.ACCEPTABLE_MODEL_DIFFERENCE
+                rel_tol=config.ACCEPTABLE_MODEL_DIFFERENCE
         )
     )
