@@ -26,3 +26,6 @@ IMPUTE_ITER = 30
 # Model
 PIPELINE_FILE = "gbm"
 MODEL_HYP = {"max_depth":5, "n_estimators":500, "random_state":SEED}
+
+#Differential tests
+ACCEPTABLE_MODEL_DIFFERENCE = 0.05

@@ -77,16 +77,39 @@ jobs:
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./pima_package/deployment_pima/
 
+  differential_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - *prepare_venv
+      - run:
+          name: Capturing previous model predictions
+          command: |
+            source venv/bin/activate
+            pip3 install -r pima_package/pima_api/diff_test_requirements.txt
+            PYTHONPATH=./pima_package/pima_api python3 pima_package/pima_api/tests/capture_model_predictions.py
+      - run:
+          name: Runnning differential tests
+          command: |
+            source venv/bin/activate
+            pip3 install -r pima_package/pima_api/requirements.txt
+            py.test -vv pima_package/pima_api/tests -m differential
+
 
 workflows:
   version: 2.1
   test-all:
     jobs:
       - test_deployment_pima
+      - differential_tests
       - train_and_upload_model:
           requires:
             - test_deployment_pima
+            - differential_tests
+          filters:
+            branches:
+              only:
+                - master
       - test_pima_api:
           requires:
-            - test_deployment_pima
             - train_and_upload_model
