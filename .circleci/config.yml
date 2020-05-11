@@ -67,6 +67,7 @@ jobs:
           command: |
             source venv/bin/activate
             pip3 install -r pima_package/deployment_pima/requirements.txt
+            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./pima_package/deployment_pima/
 
@@ -100,6 +101,7 @@ workflows:
       - upload_model:
           requires:
             - test_deployment_pima
+            - differential_tests
           filters:
             branches:
               only:
