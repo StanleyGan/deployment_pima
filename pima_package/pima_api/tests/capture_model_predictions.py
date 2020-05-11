@@ -10,7 +10,7 @@ import os
 from deployment_pima.predict import make_predictions
 from deployment_pima.processing.pipeline_helper import load_data
 from deployment_pima.config import config as model_config
-from api.config import config as config
+from api import config
 
 
 def capture_predictions() -> None:

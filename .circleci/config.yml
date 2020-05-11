@@ -103,7 +103,7 @@ workflows:
             branches:
               only:
                 - master
-      - test_pima_api
+      - test_pima_api:
           requires:
             - differential_tests
             - upload_model
