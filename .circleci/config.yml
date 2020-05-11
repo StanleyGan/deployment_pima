@@ -25,7 +25,7 @@ jobs:
           name: Capturing previous model predictions for differential testing
           command: |
             source venv/bin/activate
-            pip3 install -r pima_package/deployment_pima/tests/diff_test_requirements.txt
+            pip3 install -r pima_package/deployment_pima/diff_test_requirements.txt
             PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/tests/capture_model_predictions.py
       - run:
           name: Install requirements

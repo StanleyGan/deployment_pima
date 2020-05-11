@@ -10,7 +10,7 @@ import os
 from deployment_pima.predict import make_predictions
 from deployment_pima.processing.pipeline_helper import load_data
 from deployment_pima.config import config
-with open(os.path.join(config.ROOT, "tests", "diff_test_requirements.txt"), 'r') as f:
+with open(os.path.join(config.ROOT, "diff_test_requirements.txt"), 'r') as f:
     requirements = f.readlines()
 
 previous_version = [i for i in requirements if i.startswith("deployment-pima")][0]\
