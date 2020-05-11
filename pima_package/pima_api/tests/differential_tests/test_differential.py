@@ -7,7 +7,7 @@ from deployment_pima.processing.pipeline_helper import load_data
 import pandas as pd
 import pytest
 
-from api.config import config as config
+from api import config
 
 
 @pytest.mark.differential

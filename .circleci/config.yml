@@ -105,5 +105,6 @@ workflows:
                 - master
       - test_pima_api:
           requires:
+            - test_deployment_pima
             - differential_tests
             - upload_model
