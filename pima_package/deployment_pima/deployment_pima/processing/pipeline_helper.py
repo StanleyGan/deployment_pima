@@ -33,7 +33,7 @@ def save_pipeline(pipeline_to_persist) -> None:
         os.mkdir(config.MODEL_DIR)
     save_path = config.MODEL_DIR / save_file
 
-    remove_old_pipelines(file_to_keep=save_file)
+    remove_old_pipelines(file_to_keep=[save_file])
     joblib.dump(pipeline_to_persist, save_path)
     _logger.info("Saved pipeline: {}".format(save_file))
 
@@ -41,11 +41,12 @@ def remove_old_pipelines(file_to_keep) -> None:
     """ Remove other pipelines and only keep one for deployment
 
     Args:
-        file_to_keep (A str/ A Pathlib object)
+        file_to_keep (A list of str/ A Pathlib object)
 
     """
+    do_not_delete = file_to_keep + ['__init__.py']
     for f in config.MODEL_DIR.iterdir():
-        if f not in [file_to_keep, '__init__.py']:
+        if f not in do_not_delete:
             f.unlink()
 
 def load_pipeline(file_name: str) -> Pipeline:

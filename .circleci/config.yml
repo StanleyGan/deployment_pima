@@ -15,27 +15,28 @@ prepare_venv: &prepare_venv
       pip3 install --upgrade pip
 
 
+train_model: &train_model
+    run:
+      name: Install requirements and train model
+      command: |
+        source venv/bin/activate
+        pip3 install -e pima_package/deployment_pima/
+        PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
+
+
 jobs:
   test_deployment_pima:
     <<: *defaults
     steps:
       - checkout
       - *prepare_venv
-      - run:
-          name: Install requirements
-          command: |
-            source venv/bin/activate
-            pip3 install -r pima_package/deployment_pima/requirements.txt
-      - run:
-          name: Train model
-          command: |
-            source venv/bin/activate
-            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
+      - *train_model
       - run:
           name: Running model tests
           command: |
             source venv/bin/activate
             py.test -vv pima_package/deployment_pima/tests
+
 
   test_pima_api:
     <<: *defaults
@@ -55,27 +56,39 @@ jobs:
           paths:
             - "/venv"
 
-  train_and_upload_model:
+
+  upload_model:
     <<: *defaults
     steps:
       - checkout
       - *prepare_venv
       - run:
-          name: Install requirements
-          command: |
-            source venv/bin/activate
-            pip3 install -r pima_package/deployment_pima/requirements.txt
-      - run:
-          name: Train model
-          command: |
-            source venv/bin/activate
-            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
-      - run:
           name: Publish model to Gemfury
           command: |
             source venv/bin/activate
+            pip3 install -r pima_package/deployment_pima/requirements.txt
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./pima_package/deployment_pima/
+
+
+  differential_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - *prepare_venv
+      - run:
+          name: Capturing previous model predictions for differential testing
+          command: |
+            source venv/bin/activate
+            pip3 install -r pima_package/pima_api/diff_test_requirements.txt
+            PYTHONPATH=./pima_package/pima_api python3 pima_package/pima_api/tests/capture_model_predictions.py
+            pip3 uninstall -y deployment_pima
+      - *train_model
+      - run:
+          name: Running differential tests
+          command: |
+            source venv/bin/activate
+            py.test -vv pima_package/pima_api/tests -m differential
 
 
 workflows:
@@ -83,10 +96,20 @@ workflows:
   test-all:
     jobs:
       - test_deployment_pima
-      - train_and_upload_model:
+      - differential_tests
+      - upload_model:
           requires:
             - test_deployment_pima
+          filters:
+            branches:
+              only:
+                - master
       - test_pima_api:
           requires:
             - test_deployment_pima
-            - train_and_upload_model
+            - differential_tests
+            - upload_model
+          filters:
+            branches:
+              only:
+                - master
