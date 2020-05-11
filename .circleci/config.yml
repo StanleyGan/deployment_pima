@@ -82,7 +82,7 @@ jobs:
             source venv/bin/activate
             pip3 install -r pima_package/pima_api/diff_test_requirements.txt
             PYTHONPATH=./pima_package/pima_api python3 pima_package/pima_api/tests/capture_model_predictions.py
-            pip3 uninstall -y deployment_pima 
+            pip3 uninstall -y deployment_pima
       - *train_model
       - run:
           name: Running differential tests
@@ -109,3 +109,7 @@ workflows:
             - test_deployment_pima
             - differential_tests
             - upload_model
+          filters:
+            branches:
+              only:
+                - master

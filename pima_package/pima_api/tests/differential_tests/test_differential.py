@@ -9,6 +9,7 @@ import pytest
 
 from api import config
 
+_logger = config.getLogger(__name__)
 
 @pytest.mark.differential
 def test_model_prediction_differential(
@@ -30,6 +31,11 @@ def test_model_prediction_differential(
     # When
     current_result = make_predictions(input_data=multiple_test_input)
     current_model_predictions = current_result.get('predictions')
+    _logger.info(
+        "New predictions were made on model version: {}".format(
+            current_result.get('version')
+        )
+    )
 
     # Then
     # diff the current model vs. the old model
