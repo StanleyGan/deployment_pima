@@ -28,4 +28,4 @@ PIPELINE_FILE = "gbm"
 MODEL_HYP = {"max_depth":3, "n_estimators":300, "random_state":SEED}
 
 #Differential tests
-ACCEPTABLE_MODEL_DIFFERENCE = 0.05
+ACCEPTABLE_MODEL_DIFFERENCE = 0.1
