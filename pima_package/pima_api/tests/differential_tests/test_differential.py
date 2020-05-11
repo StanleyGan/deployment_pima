@@ -9,7 +9,7 @@ import pytest
 
 from api import config
 
-_logger = config.getLogger(__name__)
+_logger = config.get_logger(__name__)
 
 @pytest.mark.differential
 def test_model_prediction_differential(
