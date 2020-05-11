@@ -15,38 +15,33 @@ prepare_venv: &prepare_venv
       pip3 install --upgrade pip
 
 
+train_model: &train_model
+  run:
+    name: Install requirements
+    command: |
+      source venv/bin/activate
+      pip3 install -r pima_package/deployment_pima/requirements.txt
+  run:
+    name: Train model
+    command: |
+      source venv/bin/activate
+      PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
+
+
+
 jobs:
   test_deployment_pima:
     <<: *defaults
     steps:
       - checkout
       - *prepare_venv
-      - run:
-          name: Capturing previous model predictions for differential testing
-          command: |
-            source venv/bin/activate
-            pip3 install -r pima_package/deployment_pima/diff_test_requirements.txt
-            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/tests/capture_model_predictions.py
-      - run:
-          name: Install requirements
-          command: |
-            source venv/bin/activate
-            pip3 install -r pima_package/deployment_pima/requirements.txt
-      - run:
-          name: Train model
-          command: |
-            source venv/bin/activate
-            PYTHONPATH=./pima_package/deployment_pima python3 pima_package/deployment_pima/deployment_pima/train_pipeline.py
+      - *train_model
       - run:
           name: Running model tests
           command: |
             source venv/bin/activate
-            py.test -vv pima_package/deployment_pima/tests -m "not differential"
-      - run:
-          name: Running differential tests
-          command: |
-            source venv/bin/activate
-            py.test -vv pima_package/deployment_pima/tests -m differential
+            py.test -vv pima_package/deployment_pima/tests
+
 
   test_pima_api:
     <<: *defaults
@@ -66,6 +61,7 @@ jobs:
           paths:
             - "/venv"
 
+
   upload_model:
     <<: *defaults
     steps:
@@ -80,11 +76,32 @@ jobs:
             ./scripts/publish_model.sh ./pima_package/deployment_pima/
 
 
+  differential_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - *prepare_venv
+      - run:
+          name: Capturing previous model predictions for differential testing
+          command: |
+            source venv/bin/activate
+            pip3 install -r pima_package/pima_api/diff_test_requirements.txt
+            PYTHONPATH=./pima_package/pima_api python3 pima_package/pima_api/tests/capture_model_predictions.py
+      - *train_model
+      - run:
+          name: Running differential tests
+          command: |
+            source venv/bin/activate
+            py.test -vv pima_package/pima_api/tests -m differential
+
+
 workflows:
   version: 2.1
   test-all:
     jobs:
       - test_deployment_pima
+      - test_pima_api
+      - differential_tests
       - upload_model:
           requires:
             - test_deployment_pima
@@ -92,6 +109,3 @@ workflows:
             branches:
               only:
                 - master
-      - test_pima_api:
-          requires:
-            - upload_model
