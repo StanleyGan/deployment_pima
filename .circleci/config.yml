@@ -99,7 +99,7 @@ workflows:
       - differential_tests
       - upload_model:
           requires:
-            - test_deployment_pima
+            - test_deployment_pimas
             - differential_tests
           filters:
             branches:
