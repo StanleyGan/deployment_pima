@@ -95,7 +95,6 @@ workflows:
   test-all:
     jobs:
       - test_deployment_pima
-      - test_pima_api
       - differential_tests
       - upload_model:
           requires:
@@ -104,3 +103,7 @@ workflows:
             branches:
               only:
                 - master
+      - test_pima_api
+          requires:
+            - differential_tests
+            - upload_model
