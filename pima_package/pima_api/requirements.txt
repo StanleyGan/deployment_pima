@@ -6,3 +6,6 @@ marshmallow==2.17.0
 
 # deployment_pima
 deployment-pima==0.3.0
+
+# deployment
+gunicorn==19.9.0
