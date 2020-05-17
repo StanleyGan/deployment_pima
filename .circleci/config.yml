@@ -92,26 +92,26 @@ jobs:
             py.test -vv pima_package/pima_api/tests -m differential
 
 
-workflows:
-  version: 2.1
-  test-all:
-    jobs:
-      - test_deployment_pima
-      - differential_tests
-      - upload_model:
-          requires:
-            - test_deployment_pima
-            - differential_tests
-          filters:
-            branches:
-              only:
-                - master
-      - test_pima_api:
-          requires:
-            - test_deployment_pima
-            - differential_tests
-            - upload_model
-          filters:
-            branches:
-              only:
-                - master
+# workflows:
+#   version: 2.1
+#   test-all:
+#     jobs:
+#       - test_deployment_pima
+#       - differential_tests
+#       - upload_model:
+#           requires:
+#             - test_deployment_pima
+#             - differential_tests
+#           filters:
+#             branches:
+#               only:
+#                 - master
+#       - test_pima_api:
+#           requires:
+#             - test_deployment_pima
+#             - differential_tests
+#             - upload_model
+#           filters:
+#             branches:
+#               only:
+#                 - master
