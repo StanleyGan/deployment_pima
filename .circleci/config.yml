@@ -50,7 +50,7 @@ jobs:
           name: Running api tests
           command: |
             pip3 install -r pima_package/pima_api/requirements.txt
-            py.test -vv pima_package/pima_api/tests
+            py.test -vv pima_package/pima_api/tests -m "not differential"
       - save_cache:
           key: py-deps-{{ checksum "pima_package/pima_api/requirements.txt" }}
           paths:
