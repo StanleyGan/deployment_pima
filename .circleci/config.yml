@@ -97,21 +97,22 @@ workflows:
   test-all:
     jobs:
       - test_deployment_pima
-      - differential_tests
-      - upload_model:
-          requires:
-            - test_deployment_pima
-            - differential_tests
-          filters:
-            branches:
-              only:
-                - master
-      - test_pima_api:
-          requires:
-            - test_deployment_pima
-            - differential_tests
-            - upload_model
-          filters:
-            branches:
-              only:
-                - master
+      - upload_model
+      # - differential_tests
+      # - upload_model:
+      #     requires:
+      #       - test_deployment_pima
+      #       - differential_tests
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      # - test_pima_api:
+      #     requires:
+      #       - test_deployment_pima
+      #       - differential_tests
+      #       - upload_model
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
