@@ -100,6 +100,26 @@ jobs:
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
+  heroku_build_push_docker:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker login --username=$HEROKU_EMAIL --password=$HEROKU_API_KEY registry.heroku.com
+      - run:
+          name: Setup Heroku CLI
+          command: |
+            wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - run:
+          name: Build and Push Image
+          command: |
+            make build-pima-api-heroku push-pima-api-heroku
+      - run:
+          name: Release to Heroku
+          command: |
+            heroku container:release web --app $HEROKU_APP_NAME
+
 workflows:
   version: 2.1
   test-all:
@@ -123,7 +143,14 @@ workflows:
             branches:
               only:
                 - master
-      - heroku_deployment:
+      # - heroku_deployment:
+      #     requires:
+      #       - test_pima_api
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      - heroku_build_push_docker:
           requires:
             - test_pima_api
           filters:

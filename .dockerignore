@@ -1,0 +1,9 @@
+jupyter_notebooks*
+*/env*
+*/venv*
+.circleci*
+pima_package/deployment_pima
+*.env
+*.log
+.git
+.gitignore
