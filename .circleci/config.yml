@@ -106,7 +106,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: false   # true can cache layer and save time
-      - run: docker login --username=$HEROKU_EMAIL --password=$HEROKU_API_KEY registry.heroku.com
+      - run: echo "$HEROKU_API_KEY" | docker login --username=$HEROKU_EMAIL --password-stdin registry.heroku.com
       - run:
           name: Setup Heroku CLI
           command: |
