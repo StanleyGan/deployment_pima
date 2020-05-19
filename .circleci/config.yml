@@ -126,7 +126,7 @@ jobs:
   publish_docker_image_to_aws:
     <<: *defaults
     working_directory: ~/project/pima_package/
-    step:
+    steps:
       - checkout
       - setup_remote_docker
       - run:
