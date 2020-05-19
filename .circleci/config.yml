@@ -123,6 +123,20 @@ jobs:
           command: |
             heroku container:release web --app $HEROKU_APP_NAME
 
+  publish_docker_image_to_aws:
+    <<: *defaults
+    working_directory: ~/project/pima_package/
+    step:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Publishing docker image to aws ECR
+          command: |
+            sudo pip install awscli
+            eval $(aws ecr get-login-password --region us-east-2)
+            make build-pima-api-aws tag-pima-api push-pima-api-aws
+            aws ecs update-service --cluster pima-api-cluster --service pima-api --task-definition pima-api-task-definition:1 --force-new-deployment
+
 workflows:
   version: 2.1
   test-all:
@@ -153,10 +167,10 @@ workflows:
       #       branches:
       #         only:
       #           - master
-      - heroku_build_push_docker:
-          requires:
-            - test_pima_api
-          filters:
-            branches:
-              only:
-                - master
+      # - heroku_build_push_docker:
+      #     requires:
+      #       - test_pima_api
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
