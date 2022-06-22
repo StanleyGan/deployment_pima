@@ -1,7 +1,7 @@
 # package requirements
 pandas==0.25.3
 scikit-learn==0.21.3
-numpy==1.17.4
+numpy==1.22.0
 lightgbm==2.3.0
 
 # testing requirements
